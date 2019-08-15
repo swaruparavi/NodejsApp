@@ -1,0 +1,85 @@
+<html>
+
+<head>
+    <title> E-bot7 Login Form</title>
+
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+         crossorigin="anonymous">
+
+    <link rel="stylesheet" type="text/css" href="style.css">
+
+</head>
+
+<body>
+
+    <br>
+    <br>
+    <br>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+
+            </div>
+
+            <div class="col-md-6 main">
+
+                <form id="idForm">
+
+                    <h1> Login Page </h1>
+
+                    UserName
+
+                    <input class="box" type="userid" name="userid" id="userid" placeholder="UserName " required /><br>
+
+                    Password
+                    <input class="box" type="password" name="password" id="password" placeholder="Password "
+                        required /><br>
+
+
+                    <br>
+                    <input type="submit" id="submitDetails" name="submitDetails" value="Submit" /><br>
+
+                </form>
+
+            </div>
+
+
+            <div class="col-md-3">
+            </div>
+
+        </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+        $("#idForm").submit(function (e) {
+
+            e.preventDefault(); // avoid to execute the actual submit of the form.
+
+            var form = $(this);
+            var url = '/sign_up';
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: form.serialize(), // serializes the form's elements.
+                success: function (data) {
+                    if (data=='Invalid username/password!'||data=='limit crossed') {
+                        alert(data);
+                    } else {
+                        window.location.href = 'login_success.html'
+                    }
+                },
+                error: function (xhr, status, error) {
+                    var err = eval("(" + xhr.responseText + ")");
+                    alert(err.Message);
+                }
+            });
+
+
+        });
+    </script>
+
+</body>
+
+</html>

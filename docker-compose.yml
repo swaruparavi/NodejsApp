@@ -1,0 +1,33 @@
+version: '2'
+
+services:
+  nodejs:
+    build: .
+    image: node-hit
+    container_name: node-app
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    links:
+      - mongo
+    depends_on:
+      - mongo
+  mongo:
+    image: mongo
+    container_name: mongo
+    volumes:
+     - ./mongo/data:/data/db
+    ports:
+     - "27017:27017"
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    restart: unless-stopped
+    volumes:
+     - ./web/src:/var/www
+     - ./nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - "80:80"
+    depends_on:
+      - nodejs
